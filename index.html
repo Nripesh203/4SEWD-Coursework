@@ -3,9 +3,110 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>New site</h1>
+    <header>
+      <nav>
+        <span>🌐 <strong>Library Admin</strong></span>
+        <div class="nav-links">
+          <a href="index.html">Books</a>
+          <a href="#">Authors</a>
+          <a href="#">Genres</a>
+          <a href="form.html">Edit</a>
+        </div>
+        <button type="button">Admin Logout</button>
+      </nav>
+    </header>
+
+    <hr />
+    <main>
+      <section>
+        <h1>Library Catalog</h1>
+        <p class="sub-banner-text">
+          Welcome to the administrator dashboard system. Managing local
+          repository assets.
+        </p>
+      </section>
+
+      <div class="controls-container">
+        <input type="text" placeholder="🔍 Search by title..." />
+
+        <select>
+          <option value="">Filter by Genre</option>
+          <option value="1">Fantasy</option>
+          <option value="2">Historical Fiction</option>
+          <option value="3">Sci-Fi</option>
+        </select>
+      </div>
+
+      <section>
+        <h2>Available Collection Items</h2>
+
+        <div class="catalog-grid">
+          <div class="book-card">
+            <div class="wireframe-img">Cover Image</div>
+
+            <h3>Meditations</h3>
+
+            <ul>
+              <li><strong>Author</strong>Marcus Aurelius</li>
+              <li><strong>Genre</strong>Stoic Philosophy</li>
+              <li><strong>Stock</strong>12 copies</li>
+            </ul>
+
+            <div class="card-actions">
+              <a href="detail.html" class="view-link">View Details</a>
+              <a href="form.html" class="edit-link">Edit</a>
+            </div>
+          </div>
+
+          <div class="book-card">
+            <div class="wireframe-img">Cover Image</div>
+
+            <h3>Can't hurt me</h3>
+
+            <ul>
+              <li><strong>Author</strong>David Goggins</li>
+              <li><strong>Genre</strong>Biography</li>
+              <li><strong>Stock</strong>18 copies</li>
+            </ul>
+
+            <div class="card-actions">
+              <a href="detail.html" class="view-link">View Details</a>
+              <a href="form.html" class="edit-link">Edit</a>
+            </div>
+          </div>
+
+          <div class="book-card">
+            <span class="low-stock-alert">0 Copies Left</span>
+
+            <div class="wireframe-img">Cover Image</div>
+
+            <h3>The undisputed Truth</h3>
+
+            <ul>
+              <li><strong>Author</strong>Mike Tyson</li>
+              <li><strong>Genre</strong>Biography</li>
+              <li><strong>Stock</strong>3 copies</li>
+            </ul>
+
+            <div class="card-actions">
+              <a href="detail.html" class="view-link">View Details</a>
+              <a href="form.html" class="edit-link">Edit</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <hr />
+
+    <footer>
+      <p>
+        &copy; 2026 Library Management Application System. All rights reserved.
+      </p>
+    </footer>
   </body>
 </html>

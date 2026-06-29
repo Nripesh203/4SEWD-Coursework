@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library System Add/Edit</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <span>🌐 <strong>Library Admin</strong></span>
+
+        <a href="index.html">Books</a>
+        <a href="#">Authors</a>
+        <a href="#">Genres</a>
+
+        <button type="button">Admin Logout</button>
+      </nav>
+    </header>
+
+    <hr />
+    <main>
+      <section>
+        <p>
+          <a href="index.html">&lt; BACK TO CATALOG</a>
+        </p>
+      </section>
+
+      <br />
+
+      <section>
+        <form id="bookForm" action="index.html" method="GET">
+          <fieldset>
+            <legend>ARCHIVAL REGISTRY - FORM NO. LIB-004</legend>
+
+            <br />
+
+            <div>
+              <label for="bookTitle">BOOK TITLE</label>
+              <br />
+              <input
+                type="text"
+                id="bookTitle"
+                name="bookTitle"
+                placeholder="Book title"
+                required
+              />
+            </div>
+
+            <br />
+
+            <div>
+              <label for="bookAuthor">AUTHOR</label>
+              <br />
+              <select id="bookAuthor" name="bookAuthor" required>
+                <option value="">Select author</option>
+                <option value="marcus">Marcus Aurelius</option>
+                <option value="goggins">David Goggins</option>
+                <option value="tyson">Mike Tyson</option>
+              </select>
+            </div>
+
+            <br />
+
+            <div>
+              <label for="bookGenre">GENRE</label>
+              <br />
+              <select id="bookGenre" name="bookGenre" required>
+                <option value="">Select genre</option>
+                <option value="philosophy">Philosophy</option>
+                <option value="biography">Biography</option>
+                <option value="fantasy">Fantasy</option>
+              </select>
+            </div>
+
+            <br />
+
+            <div>
+              <label for="stockQuantity">STOCK QUANTITY</label>
+              <br />
+              <input
+                type="number"
+                id="stockQuantity"
+                name="stockQuantity"
+                value="0"
+                min="0"
+                required
+              />
+            </div>
+
+            <br />
+
+            <div>
+              <label for="coverImage">COVER IMAGE</label>
+              <br />
+              <span>Upload Local Cover Image File (No URLs)</span>
+              <br />
+              <small>PNG, JPG, WebP max 5 MB</small>
+              <br />
+              <input
+                type="file"
+                id="coverImage"
+                name="coverImage"
+                accept="image/*"
+              />
+            </div>
+
+            <br />
+            <hr />
+            <br />
+
+            <div>
+              <button type="submit">SAVE TO CATALOG</button>
+
+              <a href="index.html">
+                <button type="button">CANCEL</button>
+              </a>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+
+    <br />
+    <hr />
+
+    <footer>
+      <p>
+        &copy; 2026 Library Management Application System. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
