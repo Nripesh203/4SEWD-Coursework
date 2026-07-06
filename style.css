@@ -199,3 +199,206 @@ input[type="text"] {
   text-transform: uppercase;
   font-family: sans-serif;
 }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+#bookForm {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#bookForm fieldset {
+  border: 1px solid #c4bcae;
+  padding: 30px;
+  background-color: var(--card-bg);
+}
+
+#bookForm legend {
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+  padding: 0 10px;
+}
+
+#bookForm label {
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #59524a;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+#bookForm input[type="text"],
+#bookForm input[type="number"],
+#bookForm select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #c4bcae;
+  background-color: var(--bg-color);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+#bookForm input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--bg-color);
+  border: 1px dashed #c4bcae;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+#bookForm span,
+#bookForm small {
+  font-family: sans-serif;
+  color: #70675c;
+}
+
+#bookForm div:last-of-type {
+  display: flex;
+  gap: 15px;
+}
+
+#bookForm div:last-of-type button,
+#bookForm div:last-of-type a {
+  flex: 1;
+}
+
+#bookForm button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--accent-dark);
+  color: var(--accent-light);
+  border: none;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#bookForm button[type="button"] {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--accent-light);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-dark);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.detail-view-container {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.detail-cover-wrapper {
+  flex: 1;
+  max-width: 400px;
+}
+
+.detail-cover-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.detail-info-wrapper {
+  flex: 1.5;
+}
+
+.detail-info-wrapper p span {
+  font-family: sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: #8c8274;
+}
+
+.detail-info-wrapper h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.detail-info-wrapper ul {
+  list-style: none;
+}
+
+.detail-info-wrapper ul li {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 10px 0;
+  font-size: 0.95rem;
+}
+
+.detail-info-wrapper ul strong {
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  color: #a69c8e;
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.detail-info-wrapper ul span {
+  color: var(--text-primary);
+}
+
+.detail-actions-block {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.detail-actions-block button {
+  padding: 14px 28px;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.detail-actions-block a button {
+  background-color: var(--accent-dark);
+  color: var(--accent-light);
+  border: none;
+}
+
+.detail-actions-block > button:last-of-type {
+  background-color: transparent;
+  color: var(--alert-color);
+  border: 1px solid var(--alert-color);
+}
+
+@media (max-width: 768px) {
+  .detail-view-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .detail-cover-wrapper {
+    max-width: 100%;
+  }
+}
