@@ -1,135 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
-import BookCard from "./components/BookCard";
-import BookForm from "./components/BookForm";
-import BookDetail from "./components/BookDetail";
-import { getAllBooks, removeBook } from "./services/bookService";
-import "./style.css";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import BookList from "./pages/BookList";
+import BookView from "./pages/BookView";
+import BookForm from "./pages/BookForm";
+import AuthorList from "./pages/AuthorList";
+import AuthorForm from "./pages/AuthorForm";
+import GenreList from "./pages/GenreList";
+import GenreForm from "./pages/GenreForm";
 
 function App() {
-  const [view, setView] = useState("catalog");
-  const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-
-  useEffect(() => {
-    async function loadInitialData() {
-      const storedBooks = await getAllBooks();
-      setBooks(storedBooks);
-    }
-    loadInitialData();
-  }, []);
-
-  const handleSelectBook = (book) => {
-    setSelectedBook(book);
-    setView("detail");
-  };
-
-  const handleDeleteBook = async (id) => {
-    const updated = await removeBook(id);
-    setBooks(updated);
-    setView("catalog");
-  };
-
   return (
-    <>
-      <Header setView={setView} />
-      <hr />
-      <main>
-        {view === "catalog" && (
-          <>
-            <section>
-              <h1>Library Catalog</h1>
-              <p>
-                Welcome to the administrator dashboard system. Managing local
-                repository assets.
-              </p>
-            </section>
-            <div
-              className="controls-container"
-              style={{ marginBottom: "20px" }}
-            >
-              <input type="text" placeholder="🔍 Search by title..." />
-              <select defaultValue="">
-                <option value="">Filter by Genre</option>
-                <option value="1">Fantasy</option>
-                <option value="2">Historical Fiction</option>
-                <option value="3">Sci-Fi</option>
-              </select>
-            </div>
-            <section>
-              <h2>Available Collection Items</h2>
-              <div className="catalog-grid">
-                <div className="book-card">
-                  <div className="wireframe-img">Cover Image</div>
-                  <h3>Meditations</h3>
-                  <ul>
-                    <li>
-                      <strong>Author</strong>Marcus Aurelius
-                    </li>
-                    <li>
-                      <strong>Genre</strong>Stoic Philosophy
-                    </li>
-                    <li>
-                      <strong>Stock</strong>12 copies
-                    </li>
-                  </ul>
-                  <div className="card-actions">
-                    <a
-                      href="#"
-                      className="view-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleSelectBook({
-                          id: "static-1",
-                          title: "Meditations",
-                          author: "Marcus Aurelius",
-                          genre: "Stoic Philosophy",
-                          stock: 12,
-                        });
-                      }}
-                    >
-                      View Details
-                    </a>
-                    <a
-                      href="#"
-                      className="edit-link"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Edit
-                    </a>
-                  </div>
-                </div>
-                {books.map((book) => (
-                  <BookCard
-                    key={book.id}
-                    book={book}
-                    onSelect={handleSelectBook}
-                  />
-                ))}
-              </div>
-            </section>
-          </>
-        )}
+    <Routes>
+      {/* 1. Unprotected / Public Routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-        {view === "form" && (
-          <BookForm onBookAdded={setBooks} setView={setView} />
-        )}
-        {view === "detail" && (
-          <BookDetail
-            book={selectedBook}
-            setView={setView}
-            onDelete={handleDeleteBook}
-          />
-        )}
-      </main>
-      <hr />
-      <footer>
-        <p>
-          &copy; 2026 Library Management Application System. All rights
-          reserved.
-        </p>
-      </footer>
-    </>
+      {/* 2. Protected App Area (Requires Authentication) */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/books" element={<BookList />} />
+          <Route path="/books/:id" element={<BookView />} />
+          <Route path="/authors" element={<AuthorList />} />
+          <Route path="/genres" element={<GenreList />} />
+        </Route>
+      </Route>
+
+      {/* 3. Admin-Only Protected Area (Separated to prevent nesting issues) */}
+      <Route element={<ProtectedRoute requireAdmin={true} />}>
+        <Route element={<Layout />}>
+          <Route path="/books/add" element={<BookForm />} />
+          <Route path="/books/edit/:id" element={<BookForm />} />
+          <Route path="/authors/add" element={<AuthorForm />} />
+          <Route path="/authors/edit/:id" element={<AuthorForm />} />
+          <Route path="/genres/add" element={<GenreForm />} />
+          <Route path="/genres/edit/:id" element={<GenreForm />} />
+        </Route>
+      </Route>
+
+      {/* Catch-all redirect */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
 
