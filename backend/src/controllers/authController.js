@@ -2,8 +2,6 @@ import db from "../config/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
 export const register = async (req, res) => {
   try {
     const { username, password, role } = req.body;
@@ -15,7 +13,6 @@ export const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const userRole = role === "ADMIN" ? "ADMIN" : "USER";
 
     const result = db
@@ -43,7 +40,6 @@ export const register = async (req, res) => {
   }
 };
 
-// Login
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -71,16 +67,20 @@ export const login = async (req, res) => {
       });
     }
 
+    const secret = process.env.JWT_SECRET || "default_fallback_jwt_secret_123";
+
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
-      JWT_SECRET,
+      secret,
       { expiresIn: "1d" },
     );
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
