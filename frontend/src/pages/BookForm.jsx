@@ -6,7 +6,7 @@ import {
   updateBook,
   getImageUrl,
 } from "../services/api";
-import axios from "axios";
+import api from "../services/api"; // ✅ Use your configured API instance
 
 function BookForm() {
   const { id } = useParams();
@@ -27,17 +27,28 @@ function BookForm() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
+
   useEffect(() => {
     const loadInitialData = async () => {
       try {
         setLoading(true);
 
+        // ✅ Hit backend endpoints using the configured api client
         const [authorsRes, genresRes] = await Promise.all([
-          axios.get("/api/authors"),
-          axios.get("/api/genres"),
+          api.get("/authors"),
+          api.get("/genres"),
         ]);
-        setAuthors(authorsRes.data || []);
-        setGenres(genresRes.data || []);
+
+        // ✅ Extra safeguard: Ensure data is an array
+        const authorsData = Array.isArray(authorsRes.data)
+          ? authorsRes.data
+          : authorsRes.data?.authors || [];
+        const genresData = Array.isArray(genresRes.data)
+          ? genresRes.data
+          : genresRes.data?.genres || [];
+
+        setAuthors(authorsData);
+        setGenres(genresData);
 
         if (isEditMode) {
           const book = await fetchBookById(id);
@@ -181,11 +192,12 @@ function BookForm() {
               onChange={handleChange}
             >
               <option value="">Select an author</option>
-              {authors.map((author) => (
-                <option key={author.id} value={author.id}>
-                  {author.name}
-                </option>
-              ))}
+              {Array.isArray(authors) &&
+                authors.map((author) => (
+                  <option key={author.id} value={author.id}>
+                    {author.name}
+                  </option>
+                ))}
             </select>
             {errors.author_id && (
               <span className="error">{errors.author_id}</span>
@@ -202,11 +214,12 @@ function BookForm() {
               onChange={handleChange}
             >
               <option value="">Select a genre</option>
-              {genres.map((genre) => (
-                <option key={genre.id} value={genre.id}>
-                  {genre.name}
-                </option>
-              ))}
+              {Array.isArray(genres) &&
+                genres.map((genre) => (
+                  <option key={genre.id} value={genre.id}>
+                    {genre.name}
+                  </option>
+                ))}
             </select>
             {errors.genre_id && (
               <span className="error">{errors.genre_id}</span>
