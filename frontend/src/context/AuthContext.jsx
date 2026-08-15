@@ -7,7 +7,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check local storage on mount
     const storedUser = localStorage.getItem("library_user");
     const storedToken = localStorage.getItem("library_token");
 
@@ -24,7 +23,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData, token) => {
-    // Save both user and token in localStorage
     localStorage.setItem("library_user", JSON.stringify(userData));
     if (token) {
       localStorage.setItem("library_token", token);
@@ -33,10 +31,9 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    // Clear ALL stored auth credentials
     localStorage.removeItem("library_user");
     localStorage.removeItem("library_token");
-    localStorage.removeItem("token"); // Cleanup in case old key exists
+    localStorage.removeItem("token");
     setUser(null);
   };
 

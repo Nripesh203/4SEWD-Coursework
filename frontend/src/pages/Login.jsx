@@ -23,6 +23,7 @@ function Login() {
     try {
       setLoading(true);
       setError("");
+      console.log("VITE_API_URL:", import.meta.env.VITE_API_URL);
 
       const response = await api.post("/auth/login", {
         username: username.trim(),
