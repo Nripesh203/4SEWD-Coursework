@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../services/api"; // Assuming configured axios instance with token interceptors
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 function AuthorList() {
@@ -9,8 +9,6 @@ function AuthorList() {
   const [error, setError] = useState("");
 
   const { isAdmin } = useAuth();
-
-  // 1. Fetch authors on mount
   useEffect(() => {
     loadAuthors();
   }, []);
@@ -20,7 +18,11 @@ function AuthorList() {
       setLoading(true);
       setError("");
       const response = await api.get("/authors");
-      setAuthors(response.data);
+      const authorsData = Array.isArray(response.data)
+        ? response.data
+        : response.data?.authors || response.data?.data || [];
+
+      setAuthors(authorsData);
     } catch (err) {
       setError(
         err.response?.data?.message || err.message || "Failed to load authors",
@@ -30,7 +32,6 @@ function AuthorList() {
     }
   };
 
-  // 2. Handle Delete Action
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Are you sure you want to delete author "${name}"?`)) {
       return;
@@ -38,10 +39,10 @@ function AuthorList() {
 
     try {
       await api.delete(`/authors/${id}`);
-      // Remove deleted author locally
-      setAuthors((prev) => prev.filter((author) => author.id !== id));
+      setAuthors((prev) =>
+        Array.isArray(prev) ? prev.filter((author) => author.id !== id) : [],
+      );
     } catch (err) {
-      // Displays message if author cannot be deleted due to associated books
       alert(err.response?.data?.message || "Failed to delete author");
     }
   };
@@ -65,7 +66,7 @@ function AuthorList() {
         )}
       </div>
 
-      {authors.length === 0 ? (
+      {!Array.isArray(authors) || authors.length === 0 ? (
         <p className="no-data">No authors found. Add one to get started!</p>
       ) : (
         <div className="authors-list">

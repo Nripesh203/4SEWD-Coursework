@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 
 function GenreForm() {
   const { id } = useParams();
@@ -18,8 +18,8 @@ function GenreForm() {
     const fetchGenre = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/genres/${id}`);
-        setName(response.data.name || "");
+        const response = await api.get(`/genres/${id}`);
+        setName(response.data?.name || response.data?.genre?.name || "");
       } catch (err) {
         setSubmitError(
           err.response?.data?.message ||
@@ -48,9 +48,9 @@ function GenreForm() {
       const payload = { name: name.trim() };
 
       if (isEditMode) {
-        await axios.put(`/api/genres/${id}`, payload);
+        await api.put(`/genres/${id}`, payload);
       } else {
-        await axios.post("/api/genres", payload);
+        await api.post("/genres", payload);
       }
 
       navigate("/genres");

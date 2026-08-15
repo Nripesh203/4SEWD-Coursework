@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 
 function AuthorForm() {
   const { id } = useParams();
@@ -16,17 +16,17 @@ function AuthorForm() {
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  // 1. Load existing author details if in Edit Mode
   useEffect(() => {
     if (!isEditMode) return;
 
     const fetchAuthor = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/authors/${id}`);
+        const response = await api.get(`/authors/${id}`);
         setFormData({
-          name: response.data.name || "",
-          biography: response.data.biography || "",
+          name: response.data?.name || response.data?.author?.name || "",
+          biography:
+            response.data?.biography || response.data?.author?.biography || "",
         });
       } catch (err) {
         setSubmitError(
@@ -57,7 +57,6 @@ function AuthorForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // 2. Submit form to Backend API
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -71,9 +70,9 @@ function AuthorForm() {
       };
 
       if (isEditMode) {
-        await axios.put(`/api/authors/${id}`, payload);
+        await api.put(`/authors/${id}`, payload);
       } else {
-        await axios.post("/api/authors", payload);
+        await api.post("/authors", payload);
       }
 
       navigate("/authors");

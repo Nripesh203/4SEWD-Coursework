@@ -19,7 +19,11 @@ function GenreList() {
       setLoading(true);
       setError("");
       const response = await api.get("/genres");
-      setGenres(response.data);
+      const genresData = Array.isArray(response.data)
+        ? response.data
+        : response.data?.genres || response.data?.data || [];
+
+      setGenres(genresData);
     } catch (err) {
       setError(
         err.response?.data?.message || err.message || "Failed to load genres",
@@ -36,7 +40,9 @@ function GenreList() {
 
     try {
       await api.delete(`/genres/${id}`);
-      setGenres((prev) => prev.filter((genre) => genre.id !== id));
+      setGenres((prev) =>
+        Array.isArray(prev) ? prev.filter((genre) => genre.id !== id) : [],
+      );
     } catch (err) {
       alert(err.response?.data?.message || "Failed to delete genre");
     }
@@ -61,7 +67,8 @@ function GenreList() {
         )}
       </div>
 
-      {genres.length === 0 ? (
+      {/* Array safety check on condition */}
+      {!Array.isArray(genres) || genres.length === 0 ? (
         <p className="no-data">No genres found. Add one to get started!</p>
       ) : (
         <div className="genres-list">

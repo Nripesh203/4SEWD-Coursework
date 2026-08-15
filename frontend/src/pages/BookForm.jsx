@@ -6,7 +6,7 @@ import {
   updateBook,
   getImageUrl,
 } from "../services/api";
-import api from "../services/api"; // ✅ Use your configured API instance
+import api from "../services/api";
 
 function BookForm() {
   const { id } = useParams();
@@ -33,13 +33,11 @@ function BookForm() {
       try {
         setLoading(true);
 
-        // ✅ Hit backend endpoints using the configured api client
         const [authorsRes, genresRes] = await Promise.all([
           api.get("/authors"),
           api.get("/genres"),
         ]);
 
-        // ✅ Extra safeguard: Ensure data is an array
         const authorsData = Array.isArray(authorsRes.data)
           ? authorsRes.data
           : authorsRes.data?.authors || [];
